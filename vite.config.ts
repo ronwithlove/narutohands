@@ -8,9 +8,11 @@ export default defineConfig({
     target: 'es2022',
     rollupOptions: {
       input: {
-        demo: resolve(__dirname, 'index.html'),
+        index: resolve(__dirname, 'index.html'),
+        demo: resolve(__dirname, 'demo.html'),
         lab: resolve(__dirname, 'lab.html'),
         pop: resolve(__dirname, 'pop.html'),
+        seal: resolve(__dirname, 'seal.html'),
       },
     },
   },

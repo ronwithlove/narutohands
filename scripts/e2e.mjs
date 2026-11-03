@@ -41,10 +41,10 @@ const CLIPS = `(() => {
 })()`;
 
 // ---------------------------------------------------------------- demo
-await page.goto(URL + 'index.html');
+await page.goto(URL + 'demo.html');
 await page.waitForFunction(() => window.__demo);
 await page.evaluate(() => { const { hands, syntheticHand: H, POSES: P } = window.__demo; hands.inject([H(0.5, 0.5, P.fist)]); });
-await page.waitForTimeout(400);
+await page.waitForFunction(() => window.__demo.hands.frame.hands[0]?.pose === 'fist', null, { timeout: 5000 }).catch(() => {});
 let pose = await page.evaluate(() => window.__demo.hands.frame.hands[0]?.pose);
 check('demo: a held fist is recognised', pose === 'fist', `pose=${pose}`);
 const fired = await page.evaluate((CLIPS) => {

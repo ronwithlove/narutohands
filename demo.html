@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hand Gesture Kit · Demo</title>
+    <meta name="description" content="Webcam hand gestures in the browser: live poses, motions and two-hand gestures." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%8B%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/src/demo/demo.css" />
+  </head>
+  <body>
+    <header>
+      <b>忍术练习</b>
+      <nav><a href="./seal.html#practice">忍术练习</a><a href="./seal.html#record">手势录制</a><a href="./seal.html#compose">忍术录入</a><a href="./demo.html" class="on">手势 Demo</a></nav>
+      <span id="status">camera off</span>
+    </header>
+    <main>
+      <div class="stage">
+        <video id="cam" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="start" class="start">
+          <h1>Show your hands</h1>
+          <p>Every pose, motion and two-hand gesture the engine knows, live. Video stays on your device.</p>
+          <div class="row">
+            <button id="b-cam">Start camera</button>
+            <button id="b-synth" class="ghost">No camera? Watch synthetic hands</button>
+          </div>
+          <p id="err" class="err"></p>
+        </div>
+      </div>
+      <aside>
+        <h2>Hands</h2>
+        <div id="hands" class="hands"><p class="dim">No hands yet</p></div>
+        <h2>Events</h2>
+        <ol id="log" class="log"></ol>
+      </aside>
+    </main>
+    <script type="module" src="/src/demo/main.ts"></script>
+  </body>
+</html>
