@@ -94,6 +94,18 @@ const game = await page.evaluate((CLIPS) => {
 check('game: pinch tap pops the balloon at your fingertips', game.afterTap > game.before, JSON.stringify(game));
 check('game: clap pops every balloon', game.n >= 4 && game.afterClap === 0, JSON.stringify(game));
 
+// The language switch must preserve an unsaved sequence and persist across page loads.
+await page.goto(URL + 'seal.html#compose');
+await page.waitForFunction(() => document.querySelector('#progress')?.textContent?.startsWith('2 / 12'));
+check('seal defaults: provided samples loaded', (await page.locator('#progress').innerText()).startsWith('2 / 12'));
+await page.locator('[data-add-seal="子"]').click();
+await page.locator('.language-select').selectOption('en');
+check('language: English labels and draft preserved', (await page.locator('#page-title').innerText()) === 'Create your jutsu' && (await page.locator('#draft').innerText()).includes('Rat') && (await page.locator('#technique-list').innerText()).includes('Fire Style: Great Fireball'));
+await page.reload();
+check('language: English selection persists', (await page.locator('.language-select').inputValue()) === 'en' && (await page.locator('#page-title').innerText()) === 'Create your jutsu');
+await page.locator('.language-select').selectOption('zh');
+check('language: Chinese can be restored', (await page.locator('#page-title').innerText()) === '创建你的忍术');
+
 check('no page errors', errors.length === 0, errors.join(' | '));
 await browser.close();
 stopServer();

@@ -30,3 +30,5 @@ aside h2 { margin: 4px 0 0; font-size: 12px; letter-spacing: 0.08em; text-transf
 .log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; max-height: 50vh; overflow: auto; }
 .log li { display: flex; gap: 8px; }
 .log .k { color: var(--dim); width: 64px; flex: none; }
+.language-select { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; cursor: pointer; }
+header nav { flex-wrap: wrap; }

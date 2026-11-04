@@ -2,6 +2,8 @@
  * The smallest complete app: camera → gesture engine → screen. Start here when wiring the kit into
  * something new. Everything interesting comes from `createHands` and `engine.on`.
  */
+import { initLanguage } from '../seal/i18n';
+initLanguage();
 import { createHands, drawHand, MOTION_INFO, syntheticHand, SYNTHETIC_POSES as P, type GestureEvent, type HandInput } from '../kit';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
