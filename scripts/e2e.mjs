@@ -2,6 +2,7 @@
 // Lab and the example game must react to gestures through the real engine.
 // Usage: npm run build && npm run e2e      (set CHROMIUM_PATH to use a specific Chromium binary)
 import { spawn } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -96,8 +97,11 @@ check('game: clap pops every balloon', game.n >= 4 && game.afterClap === 0, JSON
 
 // The language switch must preserve an unsaved sequence and persist across page loads.
 await page.goto(URL + 'seal.html#compose');
-await page.waitForFunction(() => document.querySelector('#progress')?.textContent?.startsWith('2 / 12'));
-check('seal defaults: provided samples loaded', (await page.locator('#progress').innerText()).startsWith('2 / 12'));
+// The page should load every seal shipped in public/defaults/hand-seals.json (however many that is).
+const defaultSeals = Object.keys(JSON.parse(readFileSync(join(root, 'public/defaults/hand-seals.json'), 'utf8')).seals).length;
+const expectedProgress = `${defaultSeals} / 12`;
+await page.waitForFunction((prefix) => document.querySelector('#progress')?.textContent?.startsWith(prefix), expectedProgress);
+check(`seal defaults: provided samples loaded (${expectedProgress})`, (await page.locator('#progress').innerText()).startsWith(expectedProgress));
 await page.locator('[data-add-seal="子"]').click();
 await page.locator('.language-select').selectOption('en');
 check('language: English labels and draft preserved', (await page.locator('#page-title').innerText()) === 'Create your jutsu' && (await page.locator('#draft').innerText()).includes('Rat') && (await page.locator('#technique-list').innerText()).includes('Fire Style: Great Fireball'));
